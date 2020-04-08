@@ -1,0 +1,121 @@
+@hostname = http://localhost:3000
+# @auth = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZThhZWMwMDllMTI1MDBjYTQ4YzZiNzQiLCJpYXQiOjE1ODYxNzU4OTEsImV4cCI6MTU4Njc4MDY5MX0.5uYkH54Tl6qUxB1yfK9ZB5hLiSVEjFg5-N8ryhRmF0I
+
+### login user
+# @name login
+POST {{hostname}}/users/login
+Content-Type: application/json
+
+{
+    "email": "abdurrehman82@gmail.com",
+    "password": "1234567"
+}
+
+###
+@auth = {{login.response.body.token}}
+
+### logout
+POST {{hostname}}/users/logout
+Content-Type: application/json
+Authorization: {{auth}}
+
+### logout All
+POST {{hostname}}/users/logoutAll
+Content-Type: application/json
+Authorization: {{auth}}
+
+### create user
+POST {{hostname}}/users
+Content-Type: application/json
+
+{
+    "name": "ARH",
+    "email": "abdurrehman82@gmail.com",
+    "password": "1234567"
+}
+
+
+### read user(ME)
+GET {{hostname}}/users/me
+Content-Type: application/json
+Authorization: {{auth}}
+
+
+### update users (ME)
+PATCH  {{hostname}}/users/me
+Content-Type: application/json
+Authorization: {{auth}}
+
+{
+    "name": "User1",
+    "email": "user1@tm.com",
+    "age": 21
+}
+
+### delete users by (ME)
+DELETE  {{hostname}}/users/me
+Content-Type: application/json
+Authorization: {{auth}}
+
+### upload avatar
+POST {{hostname}}/users/me/avatar
+Authorization: {{auth}}
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="avatar"; filename="avatar.jpg"
+Content-Type: image/png
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW--
+
+
+### delete users avatr
+DELETE  {{hostname}}/users/me/avatar
+Content-Type: application/json
+Authorization: {{auth}}
+
+### get users avatr
+GET  {{hostname}}/users/5e8c40cd06c3ee0a6257874d/avatar
+Content-Type: application/json
+Authorization: {{auth}}
+
+
+### create task
+POST {{hostname}}/tasks
+Content-Type: application/json
+Authorization: {{auth}}
+
+{
+    "description": "Task 4",
+    "completed": true
+}
+
+### read tasks
+# GET {{hostname}}/tasks
+# GET {{hostname}}/tasks?completed=true
+# GET {{hostname}}/tasks?completed=false
+# GET {{hostname}}/tasks?limit=2&skip=2
+GET {{hostname}}/tasks?sortBy=createdAt:desc
+Content-Type: application/json
+Authorization: {{auth}}
+
+
+### read tasks by id
+GET {{hostname}}/tasks/5e8b42ea16c3dd1e4e3b0a18
+Content-Type: application/json
+Authorization: {{auth}}
+
+### update task by id
+PATCH  {{hostname}}/tasks/5e8b3ddc1f90f31d87df4539
+Content-Type: application/json
+Authorization: {{auth}}
+
+{
+    "description": "Task for user 1",
+    "completed": true
+}
+
+### delete tasks by id
+DELETE {{hostname}}/tasks/5e8b3ddc1f90f31d87df4539
+Content-Type: application/json
+Authorization: {{auth}}
