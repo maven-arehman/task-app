@@ -48,7 +48,7 @@ router.patch("/users/me", auth, async (req, res) => {
   );
 
   if (!isValidOperation) {
-    res.status(400).send({ error: "Invalid updates!" });
+    return res.status(400).send({ error: "Invalid updates!" });
   }
 
   try {
